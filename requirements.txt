@@ -1,0 +1,31 @@
+# STaR-Net core requirements
+#
+# Install PyTorch separately first with the CUDA-specific index URL for your machine.
+# These dependencies are intentionally unpinned so pip can resolve compatible versions.
+# Optional deployment, analysis, Mamba, and TensorRT dependencies are listed in
+# requirements-optional.txt.
+
+numpy
+scipy
+scikit-image
+opencv-python
+Pillow
+h5py
+imageio
+tifffile
+PyWavelets
+matplotlib
+tqdm
+PyYAML
+tensorboard
+tensorboardX
+pytorch-msssim
+packaging
+ninja
+einops
+timm
+transformers
+huggingface-hub
+tokenizers
+safetensors
+sympy

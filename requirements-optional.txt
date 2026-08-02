@@ -1,0 +1,32 @@
+# STaR-Net optional requirements
+#
+# Install this file only after the core environment is working:
+#   python -m pip install -r requirements-optional.txt
+#
+# Dependencies are intentionally unpinned so pip can resolve compatible versions.
+# CUDA-specific packages such as causal-conv1d, mamba-ssm, and TensorRT should be
+# installed manually from wheels matching your CUDA, PyTorch, Python, ABI, and CPU
+# architecture.
+
+# ONNX / TensorRT conversion utilities
+onnx
+onnxruntime
+onnx-graphsurgeon
+polygraphy
+protobuf
+
+# Optional analysis / utility dependencies used in some scripts
+pandas
+scikit-learn
+numba
+umap-learn
+pyradiomics
+simpleitk
+gdown
+
+# Install these manually from matching local/downloaded wheels when needed:
+# causal-conv1d
+# mamba-ssm
+# tensorrt-cu12
+# tensorrt-cu12-bindings
+# tensorrt-cu12-libs

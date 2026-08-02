@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# OS / NAS metadata
+.DS_Store
+Thumbs.db
+@eaDir/
+
+# Runtime logs and generated outputs
+*.log
+events.out.tfevents*
+demo_data/test/
+code/visualization_results/
+
+# Training and deployment outputs generated after release
+save/**/tensorboard/
+save/**/code/
+save/**/epoch-last.pth
+save/**/epoch-best.pth
+save/**/tensorrt_models*/
+*.onnx
+*.engine

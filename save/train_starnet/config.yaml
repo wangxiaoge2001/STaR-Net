@@ -1,0 +1,160 @@
+angle_num: 13
+train_dataset:
+  dataset:
+    name: paired-image-folders-seq-v2-random-sample
+    args:
+      root_path_1: 
+        - ../BioDiverse4D/Neutrophil/input
+        - ../BioDiverse4D/Microglia/input
+        - ../BioDiverse4D/Bead_tube_seq_group1/input
+        - ../BioDiverse4D/Bead_tube_seq_group2/input
+        - ../BioDiverse4D/Bead_tube_seq_group3/input
+        - ../BioDiverse4D/Bead_tube_seq_group4/input
+        - ../BioDiverse4D/NAOMi/delbg/input
+        - ../BioDiverse4D/NAOMi/delsoma/input
+      root_path_2: 
+        - ../BioDiverse4D/Neutrophil/gt
+        - ../BioDiverse4D/Microglia/gt
+        - ../BioDiverse4D/Bead_tube_seq_group1/gt
+        - ../BioDiverse4D/Bead_tube_seq_group2/gt
+        - ../BioDiverse4D/Bead_tube_seq_group3/gt
+        - ../BioDiverse4D/Bead_tube_seq_group4/gt
+        - ../BioDiverse4D/NAOMi/delbg/gt
+        - ../BioDiverse4D/NAOMi/delsoma/gt
+      sample_factor: 3
+      repeat: 1
+      cache: in_memory
+      sort_index: true
+      seq_len: 4
+  wrapper:
+    name: rlfm-tpm-trans-occlusion-seq3-random-sample
+    args:
+      inp_size: 200
+      max_percentile: 100
+      rand_reverse: true
+      seq_len: 4
+      normalize_65535: true
+      sample_factor: 3
+      RPN_noise: [30000, 10000, 3000, 1000, 300, 100, 30, 10, 3]
+  batch_size: 1
+
+val_dataset:
+  dataset:
+    name: paired-image-folders-seq-v2-random-sample
+    args:
+      root_path_1: 
+        - ../BioDiverse4D/val/input
+      root_path_2: 
+        - ../BioDiverse4D/val/gt
+      sample_factor: 1
+      repeat: 1
+      cache: in_memory
+      sort_index: true
+      seq_len: 4
+  wrapper:
+    name: rlfm-tpm-trans-occlusion-seq3-random-sample
+    args:
+      inp_size: 200
+      max_percentile: 100
+      rand_reverse: true
+      seq_len: 4
+      normalize_65535: true
+      sample_factor: 1
+      RPN_noise: [30000, 10000, 3000, 1000, 300, 100, 30, 10, 3]
+  batch_size: 1
+model:
+  name: rlfm-seq
+  args:
+    encoder_spec:
+      name: STaRNet_multi_mamba
+      args:
+        window_size: 28
+        interp_angle:
+        - 32
+        - 128
+        input_angle: 13
+        embedding_dim: 64
+        output_depth: 64
+        hidden_dim: 256
+        f_maps:
+        - 4
+        - 8
+        - 16
+        - 32
+        - 64
+        trans_gate:
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        trans_gate_share_weight: false
+        up_scale_times: 0
+        in_channel: 4
+        out_channel: 4
+        num_transBlock: 1
+optimizer:
+  name: adam
+  args:
+    lr: 0.0001
+epoch_max: 2000
+multi_step_lr:
+  milestones:
+  - 500
+  - 1000
+  - 1500
+  gamma: 0.7
+seed: 31
+input_scale_factor: 1
+gt_scale_factor: 1
+log_detail_loss: false
+input_seq4: true
+seq_len: 4
+gt_merge_seq: true
+loss_l2_segment: 1
+loss_l2_segment_epoch: 50
+loss_rTG: 50
+loss_rTG_epoch: 10
+loss_rTG_indices:
+- 0
+- 10
+- 30
+- 500
+- 530
+- 1000
+- 1030
+- 1500
+- 1530
+- 2000
+loss_rTG_scales:
+- 0
+- 0
+- 1
+- 1
+- 0.3
+- 0.3
+- 0.1
+- 0.1
+- 0
+- 0
+loss_perceptual_v4_2_5_d_window: true
+lpips_extend_batch_z: 8
+lpips_extend_batch_xy: 28
+window_size_z: 1
+window_size_xy: 4
+loss_perceptual_2_5_d: true
+loss_lpips: 0.03
+loss_lpips_indices:
+- 0
+- 300
+- 400
+- 2000
+loss_lpips_scales:
+- 0
+- 0
+- 1
+- 1
+initial_interval: 100
+interval_gamma: 1.35
+epoch_val: 10
+epoch_save: 50
